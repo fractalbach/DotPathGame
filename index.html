@@ -170,6 +170,7 @@
 
 
     .myButton:hover {
+        cursor: pointer;
         animation-name: boxFlash;
         animation-duration: 0.4s;
         animation-iteration-count: 1;
@@ -264,7 +265,7 @@ var clickButton = function (page2view) {
         <text x='50%' y='600' font-size='80'>by Chris Achenbach</text>
 
         <text x='25%' y='850' font-size='80'>Enter</text>
-        <text x='75%' y='850' font-size='80'>Instructions</text>
+        <text x='75%' y='850' font-size='70'>Instructions</text>
 
     </g>
 </g>
@@ -279,11 +280,21 @@ var clickButton = function (page2view) {
     <g style = "text-anchor:middle; fill: #FFF;">
         <text x='50%' y='975' font-size='80' fill="#FFF">Enter Game</text>
         <text id="page_heading" 
-            x='50%' y='150' font-size='100' fill="#FFF">Instructions</text>
+            x='50%' y='100' font-size='100' fill="#FFF">Instructions</text>
 
-        <text x='50%' y='300' font-size='50' ></text>
+        <text x='50%' y='220' font-size='50' fill="white" w>How to Win:</text>
+        <text x='50%' y='320' font-size='50' fill="white" w>1. Connect all of the Red Points! </text>
+        <text x='50%' y='420' font-size='50' fill="white" w>2. Connect all of the Blue Points!</text>
+
+
+        <text x='50%' y='600' font-size='50' fill="white" w>Other Things:</text>
+        <text x='50%' y='700' font-size='50' fill="white" w>You can only move Up, Down, Left, Right. </text>
+        <text x='50%' y='800' font-size='50' fill="white" w>Use Diagonals to help you connect dots! </text>
+
 
     </g>
+
+     
 
     <rect  x='0' y='0' width="100" height="100" stroke="#FFF" stroke-width="5" 
     fill='#000' class="myButton" onclick = "location.reload();"/>
@@ -320,8 +331,8 @@ var getRandomInt = function (min, max) {
 var svg = document.getElementsByTagName('svg')[0];
 
 
-var numberOfPointsX = 6;
-var numberOfPointsY = 6;
+var numberOfPointsX = 5;
+var numberOfPointsY = 5;
 
 var width = 1000;
 var height = 1000;
