@@ -6,7 +6,7 @@
 <meta name="viewport" 
     content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Chris Achenbach">
-<meta name="description" content="Play the Dot Path Game!  Now using SVG!">
+<meta name="description" content="Play the Dot Path Game!  by Chris Achenbach">
 <meta name="image" content="https://fractalbach.github.io/DotPathGame/images/example1.PNG">
 <script type="application/ld+json">
 {
@@ -62,14 +62,21 @@
     /* Default Circle Animation - Happens all the time. */
 
     @keyframes breathing {
-        from {stroke-width: 1%;} 
-        to {stroke-width: 1px;}
+        0% {stroke-width: 0%;}
+        10% {stroke-width: 0.1%;}
+        20% {stroke-width: 0.2%;}
+        30% {stroke-width: 0.3%;}
+        40% {stroke-width: 0.4%;}
+        50% {stroke-width: 0.5%;}
+        60% {stroke-width: 0.6%;}
+        70% {stroke-width: 0.7%;}
+        80% {stroke-width: 0.8%;}
+        90% {stroke-width: 0.9%;}
+        100% {stroke-width: 1%;}
     }
     circle {
-        stroke-width: 1px;
-        animation-duration: 2s;
-        animation-name: breathing;
-        animation-iteration-count: infinite;
+        stroke-width: 0%;
+        animation: breathing 2s infinite;
         animation-direction: alternate;
     }
     circle:hover {
