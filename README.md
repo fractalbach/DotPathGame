@@ -14,4 +14,4 @@ Dennis Shasha. 2017. Partitioned peace. *Commun*. ACM 60, 10 (September 2017), 1
 
 ## What a completed game looks like
 
-[https://fractalbach.github.io/DotPathGame/images/win-example1.PNG]
+![Example of a completed game.][https://fractalbach.github.io/DotPathGame/images/win-example1.PNG]
