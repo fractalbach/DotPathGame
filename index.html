@@ -222,8 +222,8 @@ var clickButton = function (page2view) {
     for (var i = svg.children.length - 1; i >= 0; i--) {
         svg.children[i].style.display = "none";
     }
-    return document.getElementById(page2view).style.display = "unset";
-
+    document.getElementById(page2view).style.display = "unset";
+    return;
 };
 </script>
 
@@ -269,7 +269,7 @@ var clickButton = function (page2view) {
     <g id="dotGridTextZone"></g>
 
     <rect  x='0' y='0' width="100" height="100" stroke="#FFF" stroke-width="5" 
-    fill='#000' class="myButton" onclick = "location.reload();"/>
+    fill='#000' class="myButton" onclick = "restartGame();"/>
     <text x='50' y='80' font-size='80' 
     style = "text-anchor:middle; fill: #FFF;">↺</text>
 </g>
@@ -371,23 +371,65 @@ var factorX = (width) / (numberOfPointsX + 1);
 var factorY = (height-50) / (numberOfPointsY + 1);
 var dotRadius = (factorX + factorY)/6;
 
+// If victory is true, you do the "victory dance" and display special stuff.
+var victory;
+
 // Scoreboard
 var swapCounter = 0;
 var bridgeCounter = getRandomInt(numberOfPointsX-2, numberOfPointsX+2);
 
+// set of all saved Bridges that are currently on the board.
 var savedBridgesForward = new Set();
 var savedBridgesBackward = new Set();
 
 // Special Color Definitions, so there is no ambiguity.
-
 var MY_RED = '#F00';
 var MY_BLUE = '#07F';
 
+// display debug text information (shows dot and bridge values)
 var DEBUG_SHOW_DOT_TEXT = false;
 var DEBUG_SHOW_LINE_TEXT = false;
 
 
 
+
+var restartGame = function() {
+
+    // Reset victory value, and stop doing the victory dance.
+    if (victory) {undoVictoryDance();}
+    victory = false;
+
+    // Reset the Scoreboard
+    swapCounter = 0;
+    bridgeCounter = getRandomInt(numberOfPointsX-2, numberOfPointsX+2);
+
+    // Update the scoreboard so they display the new values
+    updateBridgeCounter();
+    updateSwapCounter();
+
+    // Reset the saved bridge sets.
+    savedBridgesForward = new Set();
+    savedBridgesBackward = new Set();
+
+    // Resets the grid arrays to empty values
+    grid           = buildGrid(numberOfPointsX,   numberOfPointsY);
+    horizontalGrid = buildGrid(numberOfPointsX-1, numberOfPointsY);
+    verticalGrid   = buildGrid(numberOfPointsX,   numberOfPointsY-1);
+    forwardDiagonalGrid =  buildGrid(numberOfPointsX-1,   numberOfPointsY-1);
+    backwardDiagonalGrid = buildGrid(numberOfPointsX-1,   numberOfPointsY-1);
+
+    // give random values to all of the points
+    randomizeAllPointColors();
+
+    // re-initializes the diagonals with values of "false"
+    initializeFalseGrid(forwardDiagonalGrid);
+    initializeFalseGrid(backwardDiagonalGrid);
+
+    // Colors all of the points and  lines based on their stored grid values.
+    colorAllPoints();
+    colorAllDiagonals();
+    colorAllLines();
+};
 
 
 
@@ -466,13 +508,16 @@ var backwardDiagonalGrid = buildGrid(numberOfPointsX-1,   numberOfPointsY-1);
 //      true -> BLUE
 //      false -> RED
 
-for (var i = numberOfPointsX - 1; i >= 0; i--) {
-    for (var j = numberOfPointsY - 1; j >= 0; j--) {
-        var rand = Math.random();
-        if (rand >= 0.5)    {grid[i][j] = true;}  // blue
-        if (rand < 0.5)     {grid[i][j] = false;} // red
+var randomizeAllPointColors = function () {
+    for (var i = numberOfPointsX - 1; i >= 0; i--) {
+        for (var j = numberOfPointsY - 1; j >= 0; j--) {
+            var rand = Math.random();
+            if (rand >= 0.5)    {grid[i][j] = true;}  // blue
+            if (rand < 0.5)     {grid[i][j] = false;} // red
+        }
     }
-}
+};
+
 
 // The Diagonal Grids start with false values, to indicate they aren't used.
 
@@ -484,6 +529,7 @@ var initializeFalseGrid = function (gridName) {
     }
 };
 
+randomizeAllPointColors();
 initializeFalseGrid(forwardDiagonalGrid);
 initializeFalseGrid(backwardDiagonalGrid);
 
@@ -546,16 +592,16 @@ var updateValuesForTheseForwardDiagonals = function (xF, x0, yF, y0) {
     for (var i = xF; i >= x0; i--) { for (var j = yF; j >= y0; j--) {
         if (forwardDiagonalGrid[i][j] !== false) {
             forwardDiagonalGrid[i][j] = comparePointsForLineValue
-                (i,j, i+1,j+1);
+                (i,j+1, i+1,j);
         }
-    }}      
+    }}
 };
 
-var updateValuesForTheseBackwardDiagonals = function () {
+var updateValuesForTheseBackwardDiagonals = function (xF, x0, yF, y0) {
     for (var i = xF; i >= x0; i--) { for (var j = yF; j >= y0; j--) {
         if (backwardDiagonalGrid[i][j] !== false) {
             backwardDiagonalGrid[i][j] = comparePointsForLineValue
-                (i,j, i-1, j-1);
+                (i,j, i+1,j+1);
         }
     }}
 };
@@ -820,7 +866,6 @@ Chain.prototype.findPotentialLinks = function () {
             if (grid[A][B] === this.chainColor) {
                 this.discoveredLinks.add(adjPoints[k]);
             }
-
         }
         var p = valueToPoint(nextPoint);
         var Z = checkPointForDiagonalLinks(p[0], p[1]);
@@ -917,8 +962,15 @@ var victoryDance = function () {
     svg.getElementById('backgroundRectangle').setAttribute('class','victory');
 };
 
+var undoVictoryDance = function () {
+    changeText('text_title', "The Dot Path Game");
+    svg.getElementById('text_title').setAttribute('style',
+        'text-anchor:middle; fill: #FFF;');
+    svg.getElementById('backgroundRectangle').setAttribute('class','none');
+};
 
-var victory;
+
+
 var checkForVictory = function() {
     // checkForVictory calls upon external definitions of victory.
     // if the game is victorious, then do a victory Dance!
@@ -985,6 +1037,15 @@ var forwardDiagonal = function (A,B) {
 var backwardDiagonal = function (A,B) {
     var out = "backwardDiagonal("+A+","+B+")"; return out;};
 
+var changeDiagonal = function (FB, index, attribute, value) {
+    switch(FB) {
+        case 'F': svg.getElementById('ForwardCrossedLines').childNodes[index].setAttribute(attribute, value);
+            break;
+
+        case 'B': svg.getElementById('BackwardCrossedLines').childNodes[index].setAttribute(attribute, value);
+            break;
+    }
+};
 
 // +============+======+====================================================
 // | Functions  |  F2  |    Text Functions and ScoreBoard.
@@ -1065,59 +1126,65 @@ var colorTheseVerticalLines = function (xF, x0, yF, y0) {
 };
 
 
-var colorAllLines = function () {
-    colorTheseHorizontalLines(grid.length - 2, 0, grid[0].length - 1, 0);
-    colorTheseVerticalLines(grid.length - 1, 0, grid[0].length - 2, 0);
-    colorAllDiagonals();
-};
-
-
-
-
-
 var determineLineColorDiagonal = function (input) {
     switch(input) {
+        case false: return 'defaultLine';
         case 0: return 'confirmedBridgeLine';
         case 1: return 'blueLine';
         case 2: return 'redLine';
     }
 };
 
-var changeForwardLine = function (index, attribute, value) {
-    svg.getElementById('ForwardCrossedLines').childNodes[index].setAttribute(
-        attribute, value);
+
+// var colorAllDiagonalsF = function () {
+//     var bridges = Array.from(savedBridgesForward);
+//     for (var i = bridges.length - 1; i >= 0; i--) {
+//         var L = valueToBridge(bridges[i]);
+//         var color = determineLineColorDiagonal(
+//             comparePointsForLineValue(L[0],L[1]+1, L[0]+1, L[1]));
+//         changeDiagonal('F', bridges[i], 'class', color);
+//     }
+// };
+// var colorAllDiagonalsB = function () {
+//     var bridges = Array.from(savedBridgesBackward);
+//     for (var i = bridges.length - 1; i >= 0; i--) {
+//         var L = valueToBridge(bridges[i]);
+//         var color = determineLineColorDiagonal(
+//             comparePointsForLineValue(L[0],L[1], L[0]+1, L[1]+1));
+//         changeDiagonal('B', bridges[i], 'class', color);
+//     }
+// };
+
+var colorTheseDiagonalsF = function (xF, x0, yF, y0) {
+    updateValuesForTheseForwardDiagonals(xF, x0, yF, y0);
+    for (var i = xF; i >= x0; i--) { for (var j = yF; j >= y0; j--) {
+        changeDiagonal('F', bridgeToValue(i,j), 'class', determineLineColorDiagonal(forwardDiagonalGrid[i][j]));
+    }} 
 };
-var changeBackwardLine = function (index, attribute, value) {
-    svg.getElementById('BackwardCrossedLines').childNodes[index].setAttribute(
-        attribute, value);
+
+var colorTheseDiagonalsB = function (xF, x0, yF, y0) {
+    console.log(String(xF) +','+ x0 +','+ yF +','+ y0);
+    updateValuesForTheseBackwardDiagonals(xF, x0, yF, y0);
+    for (var i = xF; i >= x0; i--) { for (var j = yF; j >= y0; j--) {
+        changeDiagonal('B', bridgeToValue(i,j), 'class', determineLineColorDiagonal(backwardDiagonalGrid[i][j]));
+    }}
 };
-var colorAllDiagonalsF = function () {
-    var bridges = Array.from(savedBridgesForward);
-    for (var i = bridges.length - 1; i >= 0; i--) {
-        var L = valueToBridge(bridges[i]);
-        var color = determineLineColorDiagonal(
-            comparePointsForLineValue(L[0],L[1]+1, L[0]+1, L[1]));
-        changeForwardLine(bridges[i], 'class', color);
-    }
-};
-var colorAllDiagonalsB = function () {
-    var bridges = Array.from(savedBridgesBackward);
-    for (var i = bridges.length - 1; i >= 0; i--) {
-        var L = valueToBridge(bridges[i]);
-        var color = determineLineColorDiagonal(
-            comparePointsForLineValue(L[0],L[1], L[0]+1, L[1]+1));
-        changeBackwardLine(bridges[i], 'class', color);
-    }
-};
+
+
 
 
 var colorAllDiagonals = function () {
-    colorAllDiagonalsF(); colorAllDiagonalsB();
+    colorTheseDiagonalsF(numberOfPointsX - 2, 0, 
+        numberOfPointsY - 2, 0);
+    colorTheseDiagonalsB(numberOfPointsX - 2, 0, 
+        numberOfPointsY - 2, 0);
 };
 
-
-
-
+var colorAllLines = function () {
+    colorTheseHorizontalLines(numberOfPointsX - 2, 0, numberOfPointsY - 1, 0);
+    colorTheseVerticalLines(numberOfPointsX - 1, 0, numberOfPointsY - 2, 0);
+    colorAllDiagonals();
+};
 
 
 
@@ -1138,8 +1205,6 @@ var colorAllDiagonals = function () {
 // Global Variable - Highlighted Point
 
 var highlightedPoint = false;
-var adjacentHiglights = [];
-var potentialBridges = [];
 
 var highlightBridge = function (nodelist, index) {
     if (typeof index !== 'number') {return;}
@@ -1259,17 +1324,19 @@ var myDiagonalEvent = function(clickedPoint) {
 
         // Check to see if we already have that bridge.  Remove it if we do.
         if (savedBridgesForward.has(val)) {
-            change(forwardDiagonal(A,B),'class','defaultLine'); 
+            // change(forwardDiagonal(A,B),'class','defaultLine'); 
+            forwardDiagonalGrid[A][B] = false;
             savedBridgesForward.delete(val);
             bridgeCounter++;
         } else {
             if (bridgeCounter <= 0) {return;}
-            change(forwardDiagonal(A,B),'class','confirmedBridgeLine');   
+            forwardDiagonalGrid[A][B] = 0;
+            // change(forwardDiagonal(A,B),'class','confirmedBridgeLine');   
             savedBridgesForward.add(val); 
             bridgeCounter--;
         }
         updateBridgeCounter();
-        toggleBridge('forward', val);
+        // toggleBridge('forward', val);
         colorAllDiagonals();
         return deSelect();
     }
@@ -1279,17 +1346,19 @@ var myDiagonalEvent = function(clickedPoint) {
 
         // Check to see if we already have that bridge.  Remove it if we do.
         if (savedBridgesBackward.has(val)) {
-            change(backwardDiagonal(A,B),'class','defaultLine');
+            backwardDiagonalGrid[A][B] = false;
+            // change(backwardDiagonal(A,B),'class','defaultLine');
             savedBridgesBackward.delete(val);
             bridgeCounter++;
         } else {
             if (bridgeCounter <= 0) {return;}
-            change(backwardDiagonal(A,B),'class','confirmedBridgeLine');
+            // change(backwardDiagonal(A,B),'class','confirmedBridgeLine');
+            backwardDiagonalGrid[A][B] = 0;
             savedBridgesBackward.add(val); 
             bridgeCounter--;
         }
         updateBridgeCounter();
-        toggleBridge('backward', val);
+        // toggleBridge('backward', val);
         colorAllDiagonals();
         return deSelect();
     }
@@ -1412,8 +1481,8 @@ makeText('text_title',width/2,factorY/2.5, "The Dot Path Game");
 makeText('score_swaps', width/4, factorY*3/4,"Swaps Used", factorY/4);
 makeText('score_swaps_counter', width/4, factorY+20, 0, factorY/3 + 10);
 
-makeText('score_bridges',width*3/4,factorY*3/4,"Bridges Remaining", factorY/4);
 makeText('score_bridges_counter', width*3/4, factorY+20, 10, factorY/3 + 10);
+makeText('score_bridges',width*3/4,factorY*3/4,"Bridges Remaining", factorY/4);
 
 
 var updateSwapCounter = function () {
@@ -1491,7 +1560,7 @@ for (var i = 0; i <= numberOfPointsX - 2; i++) {
         );
     }
 }
-colorAllLines();
+
 
 // make Some information for diagonal lines
 // displays the line grid's index on top of the line.  Debugging only.
@@ -1536,9 +1605,9 @@ for (var i = 0; i <= numberOfPointsX - 1; i++) {
     
         id = ('myDot_' + i + "_" + j);
 
-        if (grid[i][j]) {var color = MY_BLUE;} 
-        else            {var color = MY_RED;}
-
+        var color;
+        if (grid[i][j]) {color = MY_BLUE;} 
+        else            {color = MY_RED;}
 
         make('circle', 'dotgrid', [ 
             ['onclick', ("myClickEvent(" + i +','+ j + ");" )],
@@ -1576,11 +1645,23 @@ for (var i = 0; i <= numberOfPointsX - 1; i++) {
     }
 }
 
+var colorAllPoints = function () {
+    var color;
+    for (var i = 0; i <= numberOfPointsX - 1; i++) {
+        for (var j = 0; j <= numberOfPointsY - 1; j++) {
+            if (grid[i][j]) {color = MY_BLUE;} 
+            else            {color = MY_RED;}
+            id = ('myDot_' + i + "_" + j);
+            change(id, 'fill', color);
+            change(id, 'stroke', color);
+        }
+    }
+    
+};
 
 
-
-
-
+colorAllLines();
+colorAllPoints();
 updateBridgeCounter();
 
 
