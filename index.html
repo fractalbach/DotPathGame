@@ -70,6 +70,7 @@
 
     }
     body {  
+        font-family: sans-serif;
         background: #000;
         background: radial-gradient( #000 50%, #020,  #202 ); 
         overflow: auto;
@@ -155,8 +156,8 @@
 
 
     #text_title {
-        text-decoration: underline;
-        text-shadow: 2px 1px 1px  #999;
+        /*text-decoration: underline;
+        text-shadow: 2px 1px 1px  #999;*/
     }
     text {
         user-select: none; 
@@ -300,6 +301,13 @@ var clickButton = function (page2view) {
     fill='#000' class="myButton" onclick = "restartGame();"/>
     <text x='50' y='80' font-size='80' 
     style = "text-anchor:middle; fill: #FFF;">↺</text>
+
+    <rect x='900' y='0' width="100" height="100" stroke="#FFF" stroke-width="5" 
+    fill='#000' class="myButton" onclick = "clickButton('introOverlay')"/>
+    <text x='950' y='70' font-size='80'
+    style="text-anchor:middle; fill: #FFF;">⌂</text>
+
+
 </g>
 
 
@@ -335,29 +343,44 @@ var clickButton = function (page2view) {
     />
 
 
+
+
     <g style = "text-anchor:middle; fill: #FFF;">
         <text x='50%' y='975' font-size='80' fill="#FFF">Enter Game</text>
         <text id="page_heading" 
             x='50%' y='100' font-size='100' fill="#FFF">Instructions</text>
 
-        <text x='50%' y='220' font-size='50' fill="white" w>How to Win:</text>
-        <text x='50%' y='320' font-size='50' fill="white" w>1. Connect all of the Red Points! </text>
-        <text x='50%' y='420' font-size='50' fill="white" w>2. Connect all of the Blue Points!</text>
+        <text x='50%' y='260' font-size='50' fill="white" w>How to Win:</text>
+        <text x='50%' y='360' font-size='50' fill="white" w>1. Connect all of the Red Points! </text>
+        <text x='50%' y='440' font-size='50' fill="white" w>2. Connect all of the Blue Points!</text>
 
 
         <text x='50%' y='600' font-size='50' fill="white" w>Other Things:</text>
         <text x='50%' y='700' font-size='50' fill="white" w>You can only move Up, Down, Left, Right. </text>
-        <text x='50%' y='800' font-size='50' fill="white" w>Use Diagonals to help you connect dots! </text>
+        <text x='50%' y='780' font-size='50' fill="white" w>Use Diagonals to help you connect dots! </text>
 
 
     </g>
-
+        
      
 
     <rect  x='0' y='0' width="100" height="100" stroke="#FFF" stroke-width="5" 
     fill='#000' class="myButton" onclick = "location.reload();"/>
     <text x='50' y='80' font-size='80' 
     style = "text-anchor:middle; fill: #FFF;">↺</text>
+    <text x='25' y='140' font-size='40' 
+    style = "text-anchor:left; fill: #FFF;">↑</text>
+    <text x='0' y='180' font-size='30' 
+    style = "text-anchor:left; fill: #FFF;">Restarts Game</text>
+
+    <rect  x='900' y='0' width="100" height="100" stroke="#FFF" stroke-width="5" 
+    fill='#000' class="myButton" onclick = "clickButton('introOverlay')"/>
+    <text x='950' y='70' font-size='80'
+    style="text-anchor:middle; fill: #FFF;">⌂</text>
+    <text x='955' y='140' font-size='40' 
+    style = "text-anchor:left; fill: #FFF;">↑</text>
+    <text x='870' y='180' font-size='30' 
+    style = "text-anchor:middle; fill: #FFF;">Go to Homepage</text>
 
 </g>
 
@@ -1509,8 +1532,8 @@ makeText('text_title',width/2,factorY/2.5, "The Dot Path Game");
 makeText('score_swaps', width/4, factorY*3/4,"Swaps Used", factorY/4);
 makeText('score_swaps_counter', width/4, factorY+20, 0, factorY/3 + 10);
 
-makeText('score_bridges_counter', width*3/4, factorY+20, 10, factorY/3 + 10);
-makeText('score_bridges',width*3/4,factorY*3/4,"Bridges Remaining", factorY/4);
+makeText('score_bridges_counter', 700, factorY+20, 10, factorY/3 + 10);
+makeText('score_bridges',700,factorY*3/4,"Bridges Remaining", factorY/4);
 
 
 var updateSwapCounter = function () {
