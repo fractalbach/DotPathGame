@@ -8,7 +8,6 @@
 <meta name="author" content="Chris Achenbach">
 <meta name="description" content="Play the Dot Path Game!  by Chris Achenbach">
 <meta name="image" content="https://fractalbach.github.io/DotPathGame/images/example1.PNG">
-
 <meta property="og:title" content="Dot Path Game!" />
 <meta property="og:determiner" content="The" />
 <meta property="og:type" content="game" />
@@ -17,12 +16,11 @@
 <meta property="og:image:type" content="image/PNG" />
 <meta property="og:image:width" content="972" />
 <meta property="og:image:height" content="963" />
-
 <script type="application/ld+json">
 {
     "@context": "http://schema.org",
     "@type": "Game",
-    "description":"The Dot Path Game is an Internet Browser Game written in Javascript, HTML, CSS, and uses SVG!",s
+    "description":"The Dot Path Game is an Internet Browser Game written in Javascript, HTML, CSS, and uses SVG!",
     "dateCreated":"17 October 2017",
     "dateModified":"28 October 2017",
     "version":"1.01",
@@ -53,7 +51,6 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://fractalbach.github.io/DotPathGame/images/icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="https://fractalbach.github.io/DotPathGame/images/icons/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://fractalbach.github.io/DotPathGame/images/icons/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="https://fractalbach.github.io/DotPathGame/images/icons/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
@@ -63,24 +60,92 @@
 <style>
 
     /* =========================================
-     *  HTML Document Objects 
+     *  HTML Objects
      * ----------------------------------------- 
      */
     html {
-
+        height: 100%;
     }
     body {  
         font-family: sans-serif;
         background: #000;
         background: radial-gradient( #000 50%, #020,  #202 ); 
         overflow: auto;
-        margin: 1% auto;
-        width: 95%;
-        height: 95%;
+        margin: auto auto;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+
+        text-align: center;
+    }
+    #landscape_zone {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+        
+        height: calc(90% - 2em);
+    }
+
+    #highest_title {
+        text-align: center;
+        margin: auto auto;
+    }
+@media screen and (orientation: landscape) { 
+    body {
+        height: 100%;
+    }
+    svg {
+        order:3;
+        margin: auto auto;
+    }
+    #exp_counter2 {
+        order:4;
+    }
+    #landscape_zone {
+        flex-flow: nowrap;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+} 
+@media screen and (orientation: portrait) {
+    body  {
+        flex-flow: row wrap; 
+    }
+    aside {
+        flex: 1 auto;
+    }
+    #landscape_zone {
+        width: 100%;
+    }
+}
+
+
+    #experiment_title {
+        color:#FFF; 
+        border: solid #FFF;
+        width: 100%;
+        font-size: 2em;
+        margin: 0 auto;
+    }
+    #exp_counter1 {
+        color: #FFF;
+        border: solid #FFF;
+        padding: 0;
+        margin: auto;
+
+    }
+    #exp_counter2 {
+        color: #FFF;
+        border: solid #FFF;
+        margin: auto;
+
     }
     #gameSVG {
-        position: fixed;
-
+        position: relative;
+        margin: auto auto;
+        width: 100%;
+        height: 100%;
     }
 
     /* =========================================
@@ -257,14 +322,31 @@ var clickButton = function (page2view) {
 
 <body>
 
+<header id="experiment_title" style="display: flex;">
+    <button class="myButton">↺</button>
+    <div id="highest_title">The Dot Game</div>
+    <button class="myButton">⌂</button>
+</header>
+
+<div id="landscape_zone">
+
+<aside id ="exp_counter1">
+    <h2 style="background: #008;">Counter1</h2>
+</aside>
+
+
+<aside id="exp_counter2">
+    <h2 style="background: #008;">Counter2</h2>
+</aside>
+
 
 <svg version="1.1"
      baseProfile="full"
      width="95%"
-     height="95%"
      viewBox="0 0 1000 1000"
      xmlns="http://www.w3.org/2000/svg"
-     id="gameSVG" >
+     id="gameSVG" 
+     style="border: solid #CCF;" >
 
 
 
@@ -1724,7 +1806,7 @@ updateBridgeCounter();
 
 </script>
 
-
+</div>
 
 </body>
 </html>
