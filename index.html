@@ -63,6 +63,10 @@
 
 </head>
 
+
+<script src="scripts/dotgame-serviceworker.js"></script>
+
+
 <style>
 
     /* =========================================
@@ -1216,7 +1220,6 @@ var colorTheseDiagonalsF = function (xF, x0, yF, y0) {
 };
 
 var colorTheseDiagonalsB = function (xF, x0, yF, y0) {
-    console.log(String(xF) +','+ x0 +','+ yF +','+ y0);
     updateValuesForTheseBackwardDiagonals(xF, x0, yF, y0);
     for (var i = xF; i >= x0; i--) { for (var j = yF; j >= y0; j--) {
         changeDiagonal('B', bridgeToValue(i,j), 'class', determineLineColorDiagonal(backwardDiagonalGrid[i][j]));
