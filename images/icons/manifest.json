@@ -1,5 +1,8 @@
 {
- "name": "App",
+ "name": "Achenbach's Dot Path Game",
+ "short_name": "Dot Path Game",
+ "display": "standalone",
+ "description": "Play the Dot Path Game!  by Chris Achenbach",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
