@@ -1,6 +1,6 @@
 {
  "name": "Achenbach's Dot Path Game",
- "short_name": "Dot Path Game",
+ "short_name": "Dot Path",
  "display": "standalone",
  "description": "Play the Dot Path Game!  by Chris Achenbach",
  "start_url": ".",
