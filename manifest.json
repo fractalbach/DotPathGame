@@ -3,7 +3,7 @@
  "short_name": "Dot Path Game",
  "display": "standalone",
  "description": "Play the Dot Path Game!  by Chris Achenbach",
- "start_url": "https://github.com/fractalbach/DotPathGame",
+ "start_url": ".",
  "background_color": "#000",
  "theme_color": "#000",
  "icons": [
