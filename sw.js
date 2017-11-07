@@ -1,22 +1,8 @@
 // Service Workers
 
 
-// Encapsulate the entire service worker script and wait for the parser.
-document.addEventListener("DOMContentLoaded", function(event) {
-  console.log("DOM fully loaded and parsed");
 
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('sw.js').then(function(registration) {
-        // Registration was successful
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      }, function(err) {
-        // registration failed :(
-        console.log('ServiceWorker registration failed: ', err);
-      });
-    });
-  }
 
   // Create a cache of the main pages for the game.  
   // Things to run when the service worker is first installed.
@@ -101,5 +87,3 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
 
-//end of encapsulation (wait for dom parse)
-});
