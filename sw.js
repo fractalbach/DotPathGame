@@ -10,7 +10,9 @@
   self.addEventListener('install', function(event) {
     var CACHE_NAME = 'dot-game-cache-v1';
       var urlsToCache = [
-        'https://fractalbach.github.io/DotPathGame/index.html'
+        'index.html',
+        'game.js',
+        'style.css'
       ];
     event.waitUntil(
       caches.open(CACHE_NAME)

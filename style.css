@@ -1,0 +1,177 @@
+/* =========================================
+ *  HTML Document Objects 
+ * ----------------------------------------- 
+ */
+html {
+
+}
+body {  
+    font-family: sans-serif;
+    background: #000;
+    background: radial-gradient( #000 50%, #020,  #202 ); 
+    overflow: auto;
+    margin: 1% auto;
+    width: 95%;
+    height: 95%;
+}
+#gameSVG {
+    position: fixed;
+
+}
+
+/* =========================================
+ *  Animations and Styling for Circles 
+ * -----------------------------------------
+ */
+
+/* Default Circle Animation - Happens all the time. */
+
+@keyframes breathing {
+    0% {stroke-width: 0%;}
+    10% {stroke-width: 0.1%;}
+    20% {stroke-width: 0.2%;}
+    30% {stroke-width: 0.3%;}
+    40% {stroke-width: 0.4%;}
+    50% {stroke-width: 0.5%;}
+    60% {stroke-width: 0.6%;}
+    70% {stroke-width: 0.7%;}
+    80% {stroke-width: 0.8%;}
+    90% {stroke-width: 0.9%;}
+    100% {stroke-width: 1%;}
+}
+circle {
+    stroke-width: 0%;
+    animation: breathing 2s infinite;
+    animation-direction: alternate;
+}
+circle:hover {
+    cursor: pointer;
+}
+
+
+/* Put all of the animations over here first */
+
+@keyframes boxFlash {
+    from {stroke-width: 3%;}
+    to {stroke-width: 5;}
+}
+
+/* Flashing animation for whenever the mouse hovers over a point */
+
+@keyframes dotFlash {
+    from {stroke-width: 5px;}
+    to {stroke-width: 1px;}
+}
+.regularDot:hover {
+    stroke: #FFF;
+    stroke-width: 1px;
+    animation-duration: 0.5s;
+    animation-name: dotFlash;
+    animation-iteration-count: 1;
+}
+
+
+/* Animation and styling for the 1 selected (higlighted) Circle */ 
+
+@keyframes highlightAnimation {
+    from {stroke: #EFE; stroke-width: 4%; fill: #FFF;}
+    to {stroke: #FFF; stroke-width: 2%; }
+}
+.highlightedPoint {
+    stroke: #FFF; stroke-width: 2%; 
+    animation-name: highlightAnimation;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+
+    /*animation-iteration-count: infinite;
+    animation-direction: alternate;*/
+}
+
+
+
+
+
+#text_title {
+    font-weight: bold;
+}
+text {
+    user-select: none; 
+    pointer-events:none;
+}
+
+
+line {
+}
+.blueLine {
+    stroke: #59F;
+    stroke-width: 2%;
+}
+.redLine {
+    stroke: #F55;
+    stroke-width: 2%;
+}
+.defaultLine {
+    stroke: #333;
+    stroke-width: 0;
+}
+.confirmedBridgeLine {
+    stroke: #E9F;
+    stroke-width: 2%;
+}  
+
+
+
+
+
+@keyframes highlightPotentialLineAnimation {
+    from {stroke: #FFF; stroke-width: 1.5%;}
+    to {stroke: #9D9; stroke-width: 1%; }
+}
+.potentialBridgeLine {
+    stroke: #9D9;
+    stroke-width: 1%;
+    animation-name: highlightPotentialLineAnimation;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+}
+
+@keyframes LOWKEYhighlightAnimation {
+    from {stroke-width: 2%;}
+    to {stroke-width: 1%; }
+}
+.adjPoint {
+    stroke: #9D9;
+    stroke-width: 1%;
+    animation-name: LOWKEYhighlightAnimation;
+    animation-duration: 0.3s;
+    animation-iteration-count: 1;
+}
+
+@keyframes victoryanimation {
+    from    {stroke: #F8F; stroke-width: 2%;}
+    to      {stroke: #080; stroke-width: 2%;}
+}
+.victory {
+    animation-name: victoryanimation;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    
+    stroke: white;
+    user-select: none;
+    pointer-events:none;
+}
+
+
+.myButton:hover {
+    cursor: pointer;
+    animation-name: boxFlash;
+    animation-duration: 0.4s;
+    animation-iteration-count: 1;
+    fill: #036;
+    stroke-width: 5;
+    box-shadow: 10px 0 1em  #FFF;
+}
+.myButton:active {
+    fill: #500;
+}
