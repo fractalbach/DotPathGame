@@ -76,11 +76,11 @@
 
 <!-- Script for SVG Button Click Functionality--> 
 <script> 
-    var svg = document.getElementsByTagName('svg')[0];
+    var svg = document.getElementById("gameSVG");
 
     var clickButton = function (page2view) {
         for (var i = svg.children.length - 1; i >= 0; i--) {
-            svg.children[i].style.display = "none";
+            document.getElementById("gameSVG").children[i].style.display = "none";
         }
         document.getElementById(page2view).style.display = "unset";
         return;
@@ -100,6 +100,28 @@
      viewBox="0 0 1000 1000"
      xmlns="http://www.w3.org/2000/svg"
      id="gameSVG" >
+
+
+<g id="introOverlay" style="">
+    <g id="overlayRectangles" fill="transparent" 
+        stroke="#FFF" stroke-width="5">
+
+        <rect id='intro_select1' x='40' y='750' width="420" height="160" 
+            fill='#000' class="myButton" onclick = "clickButton('gameZone');"/>
+
+        <rect id='intro_select2' x='540' y='750' width="420" height="160" 
+            fill='#000' class="myButton" 
+            onclick = "clickButton('instructions');"/>
+    </g>
+    <g id="overlayTitle" fill="#FFF" style="text-anchor: middle;"> 
+        <text x='50%' y='150' font-size='150'>The</text>
+        <text x='50%' y='300' font-size='150'>Dot Path</text>
+        <text x='50%' y='450' font-size='150'>Game</text>
+        <text x='50%' y='600' font-size='80'>by Chris Achenbach</text>
+        <text x='25%' y='850' font-size='80'>Enter</text>
+        <text x='75%' y='850' font-size='70'>Instructions</text>
+    </g>
+</g>
 
 
 
@@ -137,28 +159,6 @@
 
 </g>
 
-
-
-<g id="introOverlay" style="display:all;">
-    <g id="overlayRectangles" fill="transparent" 
-        stroke="#FFF" stroke-width="5">
-
-        <rect id='intro_select1' x='40' y='750' width="420" height="160" 
-            fill='#000' class="myButton" onclick = "clickButton('gameZone');"/>
-
-        <rect id='intro_select2' x='540' y='750' width="420" height="160" 
-            fill='#000' class="myButton" 
-            onclick = "clickButton('instructions');"/>
-    </g>
-    <g id="overlayTitle" fill="#FFF" style="text-anchor: middle;"> 
-        <text x='50%' y='150' font-size='150'>The</text>
-        <text x='50%' y='300' font-size='150'>Dot Path</text>
-        <text x='50%' y='450' font-size='150'>Game</text>
-        <text x='50%' y='600' font-size='80'>by Chris Achenbach</text>
-        <text x='25%' y='850' font-size='80'>Enter</text>
-        <text x='75%' y='850' font-size='70'>Instructions</text>
-    </g>
-</g>
 
 
 
